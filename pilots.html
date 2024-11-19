@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drone Operators</title>
+  <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+  <header id="myHeader">
+    <h1>Drone Operator Dashboard</h1>
+  </header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="customer.html">Customer</a>
+    <a href="pilots.html">Pilots</a>
+    <a href="analytics.html">Analytics</a>
+  </nav>
+  <main>
+    <h2>Drone Operators</h2>
+    <p>Information and resources for our valued drone operators.</p>
+
+    <section class="operators-section">
+      <h3>Operator Profiles</h3>
+      <p>List or grid displaying operator details (name, photo, experience, certifications, etc.).</p>
+      </section>
+
+    <section class="operators-section">
+      <h3>Training & Certification</h3>
+      <p>Information on drone operation training programs and certification requirements.</p>
+      </section>
+
+    <section class="operators-section">
+      <h3>Safety Guidelines</h3>
+      <p>Important safety protocols and best practices for drone operators.</p>
+      </section>
+
+  </main>
+  <footer>
+  </footer>
+  <script>
+    // JavaScript for collapsible header (same as in index.html)
+    window.onscroll = function() {
+      var header = document.getElementById("myHeader");
+      if (window.pageYOffset > 100) { 
+        header.classList.add("collapsed");
+      } else {
+        header.classList.remove("collapsed");
+      }
+    };
+  </script>
+</body>
+</html>
