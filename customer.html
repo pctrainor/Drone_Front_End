@@ -4,26 +4,82 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Customer Tracking - Drone Delivery</title>
-<link rel="stylesheet" href="style.css">
-<script src="https://maps.googleapis.com/maps/api/js?key="></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://maps.googleapis.com/maps/api/js?key="></script>
+  <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
   <script>
     function initMap() {
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        center: {lat: 36.369361, lng: -94.223722}
+      let map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 4, 
+        center: {lat: 36.369361, lng: -94.223722} 
       });
 
-      var locations = [
-        {"lat": 36.369361, "lng": -94.223722},
-        {"lat": -26.363, "lng": 132.044},
-        {"lat": -27.363, "lng": 133.044}
-      ];
+      let markers = []; // Array to store markers
 
-      locations.forEach(function(location) {
-        var marker = new google.maps.Marker({
-          position: {lat: location.lat, lng: location.lng},
-          map: map
-        });
+      const routeInput = document.getElementById('routeInput');
+      routeInput.value = "RT-001"; // Prefill the input
+
+      routeInput.addEventListener('focus', function() {
+        this.value = ''; // Clear the input on focus
+      });
+
+      document.getElementById('searchButton').addEventListener('click', function() {
+        const routeId = routeInput.value;
+
+        // Remove existing markers
+        markers.forEach(marker => marker.setMap(null));
+        markers = [];
+
+        fetch(`http://127.0.0.1:5000/api/routes/${routeId}`)
+          .then(response => response.json())
+          .then(data => {
+            const waypoints = data.filter(route => route.Route_ID === routeId);
+            const positions = {};
+            waypoints.forEach(point => {
+              const posKey = `${point.Latitude},${point.Longitude}`;
+              if (!positions[posKey]) {
+                positions[posKey] = [];
+              }
+              positions[posKey].push(point);
+            });
+
+            Object.entries(positions).forEach(([posKey, points]) => {
+              const [lat, lng] = posKey.split(',');
+              const marker = new google.maps.Marker({
+                position: {lat: parseFloat(lat), lng: parseFloat(lng)},
+                map: map,
+                title: `Waypoints: ${points.map(p => p.Waypoint_ID).join(', ')}` 
+              });
+
+              const infoContent = points.map(point => `
+                <p>Waypoint: ${point.Waypoint_ID}<br>
+                Latitude: ${point.Latitude}<br>
+                Longitude: ${point.Longitude}</p>
+              `).join('');
+
+              const infowindow = new google.maps.InfoWindow({
+                content: infoContent
+              });
+
+              marker.addListener("click", () => {
+                infowindow.open({
+                  anchor: marker,
+                  map,
+                  shouldFocus: false,
+                });
+              });
+
+              markers.push(marker);
+            });
+
+            // Zoom in on the first waypoint
+            if (waypoints.length > 0) {
+              const firstWaypoint = waypoints[0];
+              map.setCenter({lat: parseFloat(firstWaypoint.Latitude), lng: parseFloat(firstWaypoint.Longitude)});
+              map.setZoom(15); // Adjust zoom level as needed
+            }
+          })
+          .catch(error => console.error('Error:', error));
       });
     }
   </script>
@@ -31,16 +87,20 @@
 <body onload="initMap()">
   <header>
     <h1>Customer Tracking</h1>
+    </br>
   </header>
   <nav>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="customer.html">Customer</a>
-      <a href="pilots.html">Drone Operators</a>
-      <a href="analytics.html">Analytics</a>
-    </nav>
+    <a href="index.html">Home</a>
+    <a href="customer.html">Customer</a>
+    <a href="pilots.html">Drone Operators</a>
+    <a href="analytics.html">Analytics</a>
+  </nav>
   <main>
     <h2>Track Your Delivery</h2>
+    <div>
+      <input type="text" id="routeInput" placeholder="Enter Route ID">
+      <button id="searchButton">Search</button>
+    </div>
     <div id="map" style="height: 500px; width: 100%;"></div>
   </main>
 </body>

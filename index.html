@@ -39,9 +39,14 @@
   </main>
   <footer>
   </footer>
-  <script>
-    // Example script to update the delivery count
-    document.getElementById('delivery-count').innerText = 1234; // Replace 1234 with the actual count
-  </script>
+<script>
+  fetch('http://127.0.0.1:5000/api/flight_plans')
+    .then(response => response.json())
+    .then(data => {
+      const completedDeliveries = data.filter(plan => plan.IsComplete).length;
+      document.getElementById('delivery-count').innerText = completedDeliveries;
+    })
+    .catch(error => console.error('Error fetching flight plans:', error));
+</script>
 </body>
 </html>
