@@ -1,0 +1,47 @@
+customer.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Tracking - Drone Delivery</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://maps.googleapis.com/maps/api/js?APIKEYHERE>"></script>
+  <script>
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: {lat: 36.369361, lng: -94.223722}
+      });
+
+      var locations = [
+        {"lat": 36.369361, "lng": -94.223722},
+        {"lat": -26.363, "lng": 132.044},
+        {"lat": -27.363, "lng": 133.044}
+      ];
+
+      locations.forEach(function(location) {
+        var marker = new google.maps.Marker({
+          position: {lat: location.lat, lng: location.lng},
+          map: map
+        });
+      });
+    }
+  </script>
+</head>
+<body onload="initMap()">
+  <header>
+    <h1>Customer Tracking</h1>
+  </header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="customer.html">Customer</a>
+    <a href="drones.html">Drones</a>
+    <a href="pilots.html">Pilots</a>
+  </nav>
+  <main>
+    <h2>Track Your Delivery</h2>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+  </main>
+</body>
+</html>

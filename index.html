@@ -1,0 +1,51 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drone Delivery Service</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    #delivery-count {
+      font-size: 3em; /* Adjust the size as needed */
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Drone Delivery Service</h1>
+  </header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="customer.html">Customer</a>
+    <a href="drones.html">Drones</a>
+    <a href="pilots.html">Pilots</a>
+  </nav>
+  <main>
+    <h2>Welcome to Our Drone Delivery Service</h2>
+    <p>Fast, efficient, and reliable delivery straight to your location.</p>
+    <div class="features">
+      <div class="feature">
+        <h3>Track Deliveries</h3>
+        <p>Real-time tracking of your packages</p>
+      </div>
+      <div class="feature">
+        <h3>Quick Delivery</h3>
+        <p>Express delivery within hours</p>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="counter">
+      <h2>Successful Deliveries</h2>
+      <p id="delivery-count">0</p>
+    </div>
+  </footer>
+  <script>
+    // Example script to update the delivery count
+    document.getElementById('delivery-count').innerText = 1234; // Replace 1234 with the actual count
+  </script>
+</body>
+</html>
