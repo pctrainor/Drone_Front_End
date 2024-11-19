@@ -1,8 +1,6 @@
 # Drone_Front_End
 
-https://jessalynheckel.github.io/Drone_Front_End/
-
-Front end for our Drone API
+Front end for our Drone API: https://jessalynheckel.github.io/Drone_Front_End/
 
 Install latest run.py Flask Server from https://github.com/pctrainor/Group-4-ISYS-57103
 Follow the README to get the Flask Server set up and running.
