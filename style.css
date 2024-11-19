@@ -1,0 +1,51 @@
+/* Base styles for the body */
+body {
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8; /* Very light gray */
+  line-height: 1.6; 
+}
+
+/* Styles for the header */
+header {
+  background-color: #00B0FF; /* Sky blue */
+  color: white;
+  padding: 1.5em 0; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+/* Styles for navigation links */
+nav {
+  background-color: #FFFFFF; /* White background for nav */
+  padding: 10px 0; 
+}
+
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #0077C2; /* Slightly darker blue for contrast */
+  font-weight: 500; 
+  padding: 8px 15px; 
+  transition: all 0.3s ease; 
+}
+
+nav a:hover {
+  color: #FFC220; /* Yellow hover effect */
+}
+
+/* Styles for the main content */
+main {
+  padding: 2em;
+  max-width: 960px; 
+  margin: 0 auto; 
+}
+
+/* Responsive styles for small screens */
+@media (max-width: 600px) {
+  nav a {
+    display: block;
+    margin: 10px 0;
+  }
+}
