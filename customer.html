@@ -5,26 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Customer Tracking - Drone Delivery</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://maps.googleapis.com/maps/api/js?key="></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key"></script>
   <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+  <style>
+    #search-container {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background-color: #f2f2f2;
+      border-radius: 5px;
+    }
+    #routeInput {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      flex-grow: 1;
+    }
+    #searchButton {
+      padding: 8px 12px;
+      background-color: #3c4ab5;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+  </style>
   <script>
     function initMap() {
       let map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4, 
+        zoom: 9, 
         center: {lat: 36.369361, lng: -94.223722} 
       });
 
       let markers = []; // Array to store markers
 
       const routeInput = document.getElementById('routeInput');
-      routeInput.value = "RT-001"; // Prefill the input
+      routeInput.value = "001"; // Prefill the input
 
-      routeInput.addEventListener('focus', function() {
-        this.value = ''; // Clear the input on focus
+      routeInput.addEventListener('input', function(e) {
+        if (this.value === "001" && e.inputType === "insertText") {
+          this.value = e.data; // Replace "001" with the typed character
+        }
+        this.value = this.value.replace(/[^0-9]/g, ''); // Allow only numbers
+      });
+
+      routeInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+          document.getElementById('searchButton').click();
+        }
       });
 
       document.getElementById('searchButton').addEventListener('click', function() {
-        const routeId = routeInput.value;
+        const routeId = "RT-" + routeInput.value; // Add "RT-" prefix
 
         // Remove existing markers
         markers.forEach(marker => marker.setMap(null));
@@ -74,9 +107,10 @@
 
             // Zoom in on the first waypoint
             if (waypoints.length > 0) {
-              const firstWaypoint = waypoints[0];
-              map.setCenter({lat: parseFloat(firstWaypoint.Latitude), lng: parseFloat(firstWaypoint.Longitude)});
-              map.setZoom(15); // Adjust zoom level as needed
+              map.setCenter({
+                lat: parseFloat(waypoints[0].Latitude),
+                lng: parseFloat(waypoints[0].Longitude)
+              });
             }
           })
           .catch(error => console.error('Error:', error));
@@ -87,7 +121,7 @@
 <body onload="initMap()">
   <header>
     <h1>Customer Tracking</h1>
-    </br>
+    <p>Your Drone Deliveries, simply optimized.</p>
   </header>
   <nav>
     <a href="index.html">Home</a>
@@ -97,10 +131,11 @@
   </nav>
   <main>
     <h2>Track Your Delivery</h2>
-    <div>
-      <input type="text" id="routeInput" placeholder="Enter Route ID">
+    <div id="search-container">
+      <label for="routeInput" style="margin-right: 5px;">RT-</label>
+      <input type="text" id="routeInput" placeholder="Enter Route Number">
       <button id="searchButton">Search</button>
-    </div>
+    </div></br>
     <div id="map" style="height: 500px; width: 100%;"></div>
   </main>
 </body>
