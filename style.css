@@ -42,6 +42,21 @@ main {
   margin: 0 auto; 
 }
 
+header {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+header p {
+  margin: 0;
+  font-size: 0.9em;
+}
+
 /* Responsive styles for small screens */
 @media (max-width: 600px) {
   nav a {
@@ -49,3 +64,4 @@ main {
     margin: 10px 0;
   }
 }
+

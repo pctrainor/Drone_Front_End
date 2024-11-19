@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="style.css">
   <style>
     #delivery-count {
-      font-size: 2em; /* Adjust the size as needed */
+      font-size: 1.2em; /* Adjust the size as needed */
       font-weight: bold;
     }
   </style>
@@ -16,32 +16,37 @@
 <body>
   <header>
     <h1>Sky Solutions</h1>
-    <p>Drone Delivery Analytics, Above and Beyond</p>
+    <p>Drone Delivery Analytics, Above and Beyond (vlos)</p>
   </header>
   <nav>
     <a href="index.html">Home</a>
     <a href="customer.html">Customer</a>
-    <a href="pilots.html">Pilots</a>
+    <a href="pilots.html">Drone Operators</a>
     <a href="analytics.html">Analytics</a>
   </nav>
   <main>
-    <h2>Welcome to Our Drone Delivery Service</h2>
-    <p>Fast, efficient, and reliable drone analytics for small to large-scale drone deliveries.</p>
+    <h2>Welcome to Our Drone Delivery Tracking and Analytics Service</h2>
+    <p>Fast, efficient, and reliable drone delivery analytics for small to large-scale drone deliveries.</p>
     <div class="features">
       <div class="feature">
         <h3>Track Deliveries</h3>
         <p>Real-time tracking of your packages</p>
       </div>
       <div> 
-        <p>Total deliveries made: <span id="delivery-count">0</span></p>
+        <p>Total deliveries tracked with Sky Solutions: <span id="delivery-count">0</span></p>
       </div>
     </div>
   </main>
   <footer>
   </footer>
-  <script>
-    // Example script to update the delivery count
-    document.getElementById('delivery-count').innerText = 1234; // Replace 1234 with the actual count
-  </script>
+<script>
+  fetch('http://127.0.0.1:5000/api/flight_plans')
+    .then(response => response.json())
+    .then(data => {
+      const completedDeliveries = data.filter(plan => plan.IsComplete).length;
+      document.getElementById('delivery-count').innerText = completedDeliveries;
+    })
+    .catch(error => console.error('Error fetching flight plans:', error));
+</script>
 </body>
 </html>
